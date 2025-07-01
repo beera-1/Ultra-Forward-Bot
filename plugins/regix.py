@@ -92,6 +92,33 @@ async def pub_(bot, message):
                    await edit(m, 'Progressing', 10, sts)
                 pling += 1
                 sts.add('fetched')
+                # --- FILTER LOGIC START ---
+                filters_list = data.get('filters', []) if isinstance(data, dict) else []
+                # Map pyrogram message types to filter keys
+                msg_type = None
+                if message.poll:
+                    msg_type = 'poll'
+                elif message.text and not message.media:
+                    msg_type = 'text'
+                elif message.audio:
+                    msg_type = 'audio'
+                elif message.voice:
+                    msg_type = 'voice'
+                elif message.video:
+                    msg_type = 'video'
+                elif message.photo:
+                    msg_type = 'photo'
+                elif message.document:
+                    msg_type = 'document'
+                elif message.animation:
+                    msg_type = 'animation'
+                elif message.sticker:
+                    msg_type = 'sticker'
+                # If this type is disabled in filters, skip
+                if msg_type and msg_type in filters_list:
+                    sts.add('filtered')
+                    continue
+                # --- FILTER LOGIC END ---
                 if message == "DUPLICATE":
                    sts.add('duplicate')
                    continue 
