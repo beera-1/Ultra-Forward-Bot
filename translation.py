@@ -93,7 +93,7 @@ class Translation(object):
 
 <b>🔥 Percentage :</b> <code>{}</code> %
 
-{}
+<b>⏰ ETA :</b> <code>{}</code>
 """
 
   TEXT1 = """<b><u>Forwarded Status</u></b>
